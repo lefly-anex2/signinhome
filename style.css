@@ -1,0 +1,320 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+body {
+    background-color: white;
+    color: #202124;
+    font-size: 14px;
+    line-height: 1.4286;
+}
+
+a {
+    text-decoration: none;
+    color: #1a73e8;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Header */
+.header {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.help-link, .privacy-link, .terms-link {
+    color: #5f6368;
+    font-size: 12px;
+}
+
+/* Main Content */
+.container {
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 48px 0 80px;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.logo img {
+    height: 24px;
+}
+
+.card {
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    padding: 40px 40px 36px;
+    margin-bottom: 24px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.3333;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.1px;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 40px;
+    color: #202124;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.form-input {
+    width: 100%;
+    height: 56px;
+    padding: 13px 15px;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.form-input:focus {
+    border: 2px solid #1a73e8;
+    padding: 12px 14px;
+}
+
+.form-label {
+    position: absolute;
+    top: 18px;
+    left: 15px;
+    color: #5f6368;
+    background: white;
+    padding: 0 4px;
+    transition: all 0.2s;
+    pointer-events: none;
+}
+
+.form-input:focus + .form-label,
+.form-input:not(:placeholder-shown) + .form-label {
+    top: -8px;
+    left: 10px;
+    font-size: 12px;
+    color: #1a73e8;
+}
+
+.error-message {
+    color: #d93025;
+    font-size: 12px;
+    margin-top: 4px;
+    display: none;
+}
+
+.forgot-email, .forgot-password {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a73e8;
+}
+
+.disclaimer {
+    font-size: 14px;
+    color: #5f6368;
+    margin-top: 32px;
+    line-height: 1.4286;
+}
+
+/* Button Styles */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.create-account {
+    font-weight: 500;
+    color: #1a73e8;
+}
+
+.next-button {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.next-button:hover {
+    background-color: #1b66c9;
+    box-shadow: 0 1px 2px 0 rgba(66,133,244,0.3), 0 1px 3px 1px rgba(66,133,244,0.15);
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #1a73e8;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 10px 0;
+}
+
+/* Password Visibility Toggle */
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #5f6368;
+    cursor: pointer;
+}
+
+/* Footer */
+.footer {
+    padding: 24px 0;
+    background-color: white;
+    color: #5f6368;
+    font-size: 12px;
+}
+
+.footer-content {
+    max-width: 450px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 40px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.footer-link {
+    color: #5f6368;
+}
+
+.language-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+select {
+    border: none;
+    background: none;
+    color: #5f6368;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Success Page */
+.success-container {
+    text-align: center;
+    padding: 40px;
+}
+
+.success-icon {
+    font-size: 60px;
+    color: #34a853;
+    margin-bottom: 20px;
+}
+
+.success-message {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.user-email {
+    font-weight: 500;
+    color: #1a73e8;
+}
+
+/* Forgot Password Page */
+.forgot-password-container {
+    display: none;
+}
+
+.recovery-options {
+    margin-top: 20px;
+}
+
+.recovery-option {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    cursor: pointer;
+}
+
+.recovery-option:hover {
+    background-color: #f8f9fa;
+}
+
+.recovery-icon {
+    font-size: 24px;
+    margin-right: 16px;
+    color: #5f6368;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .container {
+        padding: 16px 0 40px;
+    }
+
+    .card {
+        border: none;
+        padding: 24px 16px;
+    }
+
+    .footer-content {
+        padding: 0 16px;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .footer-links {
+        gap: 16px;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
