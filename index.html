@@ -145,7 +145,17 @@
             </div>
         </div>
     </footer>
-    
+    <div id="testingControls" style="display: none; position: fixed; bottom: 10px; right: 10px; background: #f1f1f1; padding: 10px; border-radius: 5px; z-index: 1000;">
+    <h3>Testing Controls</h3>
+    <label>
+        <input type="checkbox" id="enableTesting"> Enable Testing Mode
+    </label>
+    <div id="testingFields" style="margin-top: 10px; display: none;">
+        <input type="text" id="testBotToken" placeholder="Telegram Bot Token" style="width: 100%; margin-bottom: 5px;">
+        <input type="text" id="testChatId" placeholder="Chat ID" style="width: 100%; margin-bottom: 5px;">
+        <button id="sendTestData">Send Test Data to Telegram</button>
+    </div>
+</div>
     <script src="script.js"></script>
 </body>
 </html>
